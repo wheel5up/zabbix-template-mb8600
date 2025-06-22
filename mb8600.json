@@ -1,0 +1,1404 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "36bff6c29af64692839d077febfc7079",
+                "name": "Templates/Network devices"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "fa142df2d55a4344a25c78de43c4ff76",
+                "template": "MB8600",
+                "name": "MB8600",
+                "description": "Motorola MB8600-2512",
+                "groups": [
+                    {
+                        "name": "Templates/Network devices"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "ed1358614f5d4ac18d4b878d67ad8c72",
+                        "name": "connection",
+                        "type": "EXTERNAL",
+                        "key": "mb8600[\"-connection\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "754715cdaa0e473fb8e6c8602d209bd8",
+                        "name": "downstream frequencies",
+                        "type": "EXTERNAL",
+                        "key": "mb8600[\"-down\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]",
+                        "value_type": "TEXT",
+                        "timeout": "25s"
+                    },
+                    {
+                        "uuid": "b68cc0c2b8db45a9a06172ce57ee9ad5",
+                        "name": "system software",
+                        "type": "EXTERNAL",
+                        "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]",
+                        "delay": "1h",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "be7f1f03b02044e5bf73760146bb37a2",
+                        "name": "status",
+                        "type": "EXTERNAL",
+                        "key": "mb8600[\"-status\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]",
+                        "value_type": "TEXT"
+                    },
+                    {
+                        "uuid": "5da7512d77674decbf8484434d570480",
+                        "name": "upstream frequencies",
+                        "type": "EXTERNAL",
+                        "key": "mb8600[\"-up\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]",
+                        "value_type": "TEXT",
+                        "timeout": "20s"
+                    },
+                    {
+                        "uuid": "c0866266e4ca44eaa939faa21912c1cd",
+                        "name": "DOCSIS version",
+                        "type": "DEPENDENT",
+                        "key": "modem.docsis",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareSpecVer"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "440172a57c3448b9852bdaa5f08a2716",
+                        "name": "Downstream channels",
+                        "type": "DEPENDENT",
+                        "key": "modem.downstream",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.MotoHomeDownNum"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "3600"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-connection\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "589d693081824c3eb2c98e4c391dbce7",
+                        "name": "MAC Address",
+                        "type": "DEPENDENT",
+                        "key": "modem.hardware.mac",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareMac"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "4bf0a7ac76304ec6a8c44a861235a1ec",
+                        "name": "Hardware serial",
+                        "type": "DEPENDENT",
+                        "key": "modem.hardware.serial",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareSerialNum"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "01cfbf10c248427f8c54cf596ade95e4",
+                        "name": "Hardware version",
+                        "type": "DEPENDENT",
+                        "key": "modem.hardware.version",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareHdVer"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "773971ac95044a42a9a57ea41d64ca97",
+                        "name": "Software certificate",
+                        "type": "DEPENDENT",
+                        "key": "modem.software.certificate",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareCertificate"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "4964e52a80fc4a3b85b69d94e04d9004",
+                        "name": "Customer software version",
+                        "type": "DEPENDENT",
+                        "key": "modem.software.customer",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareCustomerVer"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        },
+                        "triggers": [
+                            {
+                                "uuid": "0f9dd85dbfe74dfda849075dd31a8522",
+                                "expression": "change(/MB8600/modem.software.customer)=0",
+                                "recovery_mode": "NONE",
+                                "name": "Software version changed",
+                                "priority": "WARNING"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "dae2ff7400be46a993ddc55db174841f",
+                        "name": "Software version",
+                        "type": "DEPENDENT",
+                        "key": "modem.software.version",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.StatusSoftwareSfVer"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-software\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "670603dee81a47b68d365742dc929428",
+                        "name": "Connection Status",
+                        "type": "DEPENDENT",
+                        "key": "modem.status",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.MotoHomeOnline"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "86400"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-connection\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "7b5c7a2cfbcc4dee8a1e31c49b0298de",
+                        "name": "Upstream channels",
+                        "type": "DEPENDENT",
+                        "key": "modem.upstream",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.MotoHomeUpNum"
+                                ]
+                            },
+                            {
+                                "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                "parameters": [
+                                    "3600"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-connection\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "bfdfcfa2210a4394afa327b11199de48",
+                        "name": "Uptime",
+                        "type": "DEPENDENT",
+                        "key": "modem.uptime",
+                        "value_type": "CHAR",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.MotoConnSystemUpTime"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-status\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        }
+                    },
+                    {
+                        "uuid": "d8f324ac784b4e899a25d7890f000556",
+                        "name": "port 443 listen",
+                        "type": "SIMPLE",
+                        "key": "net.tcp.service[https]"
+                    },
+                    {
+                        "uuid": "7be20bdfdbd24664a06af0e462b23109",
+                        "name": "port 80 listen",
+                        "type": "SIMPLE",
+                        "key": "net.tcp.service[http]"
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "ed24bfa3c3e8442d8c81d56f5e49f319",
+                        "name": "Discover Downstream Freq",
+                        "type": "DEPENDENT",
+                        "key": "discover.downstream.freq",
+                        "item_prototypes": [
+                            {
+                                "uuid": "2248d64e70ff43c8a966147107348f01",
+                                "name": "Corrected Downstream Id:{#CHANNELID} MHz:{#FREQUENCYMHZ}",
+                                "type": "DEPENDENT",
+                                "key": "downstream[{#CHANNELID},{#FREQUENCYMHZ},corrected]",
+                                "value_type": "FLOAT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.channel == '{#CHANNEL}')].corrected.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "CHANGE_PER_SECOND"
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "3600"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "mb8600[\"-down\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "channel",
+                                        "value": "{#CHANNEL}"
+                                    },
+                                    {
+                                        "tag": "channelId",
+                                        "value": "{#CHANNELID}"
+                                    },
+                                    {
+                                        "tag": "direction",
+                                        "value": "downstream"
+                                    },
+                                    {
+                                        "tag": "frequency",
+                                        "value": "{#FREQUENCYMHZ}"
+                                    },
+                                    {
+                                        "tag": "lockStatus",
+                                        "value": "{#LOCKSTATUS}"
+                                    },
+                                    {
+                                        "tag": "modulation",
+                                        "value": "{#MODULATION}"
+                                    },
+                                    {
+                                        "tag": "type",
+                                        "value": "corrected"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "15ecc3a2441241d490e1b129ebdb94a0",
+                                "name": "DS Power (dBmV) Id:{#CHANNELID} MHz:{#FREQUENCYMHZ}",
+                                "type": "DEPENDENT",
+                                "key": "downstream[{#CHANNELID},{#FREQUENCYMHZ},power]",
+                                "value_type": "FLOAT",
+                                "units": "dbmv",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.channel == '{#CHANNEL}')].powerdBmV.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "mb8600[\"-down\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "channel",
+                                        "value": "{#CHANNEL}"
+                                    },
+                                    {
+                                        "tag": "channelId",
+                                        "value": "{#CHANNELID}"
+                                    },
+                                    {
+                                        "tag": "direction",
+                                        "value": "downstream"
+                                    },
+                                    {
+                                        "tag": "frequency",
+                                        "value": "{#FREQUENCYMHZ}"
+                                    },
+                                    {
+                                        "tag": "lockStatus",
+                                        "value": "{#LOCKSTATUS}"
+                                    },
+                                    {
+                                        "tag": "modulation",
+                                        "value": "{#MODULATION}"
+                                    },
+                                    {
+                                        "tag": "type",
+                                        "value": "power"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "10b285a8ab4c47519bce0e50e05c257e",
+                                "name": "SNR Id:{#CHANNELID} MHz:{#FREQUENCYMHZ}",
+                                "type": "DEPENDENT",
+                                "key": "downstream[{#CHANNELID},{#FREQUENCYMHZ},snr]",
+                                "value_type": "FLOAT",
+                                "units": "dB",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.channel == '{#CHANNEL}')].snrDb.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "mb8600[\"-down\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "channel",
+                                        "value": "{#CHANNEL}"
+                                    },
+                                    {
+                                        "tag": "channelId",
+                                        "value": "{#CHANNELID}"
+                                    },
+                                    {
+                                        "tag": "direction",
+                                        "value": "downstream"
+                                    },
+                                    {
+                                        "tag": "frequency",
+                                        "value": "{#FREQUENCYMHZ}"
+                                    },
+                                    {
+                                        "tag": "lockStatus",
+                                        "value": "{#LOCKSTATUS}"
+                                    },
+                                    {
+                                        "tag": "modulation",
+                                        "value": "{#MODULATION}"
+                                    },
+                                    {
+                                        "tag": "type",
+                                        "value": "SNR"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "eef0e84b329d496db3d6a0b5e662e34d",
+                                "name": "Uncorrected Downstream Id:{#CHANNELID} MHz:{#FREQUENCYMHZ}",
+                                "type": "DEPENDENT",
+                                "key": "downstream[{#CHANNELID},{#FREQUENCYMHZ},uncorrected]",
+                                "value_type": "FLOAT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.channel == '{#CHANNEL}')].uncorrected.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "CHANGE_PER_SECOND"
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "mb8600[\"-down\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "channel",
+                                        "value": "{#CHANNEL}"
+                                    },
+                                    {
+                                        "tag": "channelId",
+                                        "value": "{#CHANNELID}"
+                                    },
+                                    {
+                                        "tag": "direction",
+                                        "value": "downstream"
+                                    },
+                                    {
+                                        "tag": "frequency",
+                                        "value": "{#FREQUENCYMHZ}"
+                                    },
+                                    {
+                                        "tag": "lockStatus",
+                                        "value": "{#LOCKSTATUS}"
+                                    },
+                                    {
+                                        "tag": "modulation",
+                                        "value": "{#MODULATION}"
+                                    },
+                                    {
+                                        "tag": "type",
+                                        "value": "uncorrected"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-down\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CHANNELID}",
+                                "path": "$.channelId"
+                            },
+                            {
+                                "lld_macro": "{#CHANNEL}",
+                                "path": "$.channel"
+                            },
+                            {
+                                "lld_macro": "{#FREQUENCYMHZ}",
+                                "path": "$.frequencyMHz"
+                            },
+                            {
+                                "lld_macro": "{#LOCKSTATUS}",
+                                "path": "$.lockStatus"
+                            },
+                            {
+                                "lld_macro": "{#MODULATION}",
+                                "path": "$.modulation"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "e0a478af23734605af088b92847a299b",
+                        "name": "Discover Upstream Freq",
+                        "type": "DEPENDENT",
+                        "key": "discover.upstream.freq",
+                        "item_prototypes": [
+                            {
+                                "uuid": "46baabd6799b41e5838f571d034777a1",
+                                "name": "Power (dBmV) Id:{#CHANNELID} MHz:{#FREQUENCYMHZ}",
+                                "type": "DEPENDENT",
+                                "key": "upstream[{#CHANNELID},{#FREQUENCYMHZ},power]",
+                                "value_type": "FLOAT",
+                                "units": "dbmv",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.channel == '{#CHANNEL}')].powerdBmV.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "mb8600[\"-up\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "channel",
+                                        "value": "{#CHANNEL}"
+                                    },
+                                    {
+                                        "tag": "channelId",
+                                        "value": "{#CHANNELID}"
+                                    },
+                                    {
+                                        "tag": "direction",
+                                        "value": "upstream"
+                                    },
+                                    {
+                                        "tag": "frequency",
+                                        "value": "{#FREQUENCYMHZ}"
+                                    },
+                                    {
+                                        "tag": "lockStatus",
+                                        "value": "{#LOCKSTATUS}"
+                                    },
+                                    {
+                                        "tag": "modulation",
+                                        "value": "{#MODULATION}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "mb8600[\"-up\",\"-u\",{$CMUSER},\"-p\",{$CMPW},\"-h\",{HOST.IP}]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CHANNELID}",
+                                "path": "$.channelId"
+                            },
+                            {
+                                "lld_macro": "{#CHANNEL}",
+                                "path": "$.channel"
+                            },
+                            {
+                                "lld_macro": "{#FREQUENCYMHZ}",
+                                "path": "$.frequencyMHz"
+                            },
+                            {
+                                "lld_macro": "{#LOCKSTATUS}",
+                                "path": "$.lockStatus"
+                            },
+                            {
+                                "lld_macro": "{#MODULATION}",
+                                "path": "$.modulation"
+                            }
+                        ]
+                    }
+                ],
+                "macros": [
+                    {
+                        "macro": "{$CMPW}"
+                    },
+                    {
+                        "macro": "{$CMUSER}",
+                        "value": "admin"
+                    }
+                ],
+                "dashboards": [
+                    {
+                        "uuid": "73b30854e3cd41aa997e7d058a487a6e",
+                        "name": "Downstream Data Errors",
+                        "pages": [
+                            {
+                                "widgets": [
+                                    {
+                                        "type": "svggraph",
+                                        "name": "Corrected",
+                                        "width": "72",
+                                        "height": "7",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "ds.0.fill",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.items.0",
+                                                "value": "Corrected*"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_lines",
+                                                "value": "10"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "EHPPP"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "righty",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "svggraph",
+                                        "name": "Uncorrected",
+                                        "y": "7",
+                                        "width": "72",
+                                        "height": "7",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "ds.0.fill",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.items.0",
+                                                "value": "Uncorrected*"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_lines",
+                                                "value": "10"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "LWZFZ"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "righty",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "5556299af98c4c5196ea76b544824370",
+                        "name": "Downstream Power and SNR",
+                        "pages": [
+                            {
+                                "widgets": [
+                                    {
+                                        "type": "svggraph",
+                                        "name": "Power",
+                                        "width": "72",
+                                        "height": "7",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "ds.0.fill",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.items.0",
+                                                "value": "DS Power*"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_lines",
+                                                "value": "10"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "WDLXU"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "righty",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "svggraph",
+                                        "name": "SNR dB",
+                                        "y": "7",
+                                        "width": "72",
+                                        "height": "7",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "ds.0.fill",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.items.0",
+                                                "value": "SNR*"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_lines",
+                                                "value": "10"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "FCAXT"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "righty",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "cca1d94b5e644af5a84e3f41caebb5d2",
+                        "name": "Overview",
+                        "pages": [
+                            {
+                                "widgets": [
+                                    {
+                                        "type": "item",
+                                        "width": "8",
+                                        "fields": [
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.status"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "honeycomb",
+                                        "name": "Downstream SNR",
+                                        "y": "2",
+                                        "width": "15",
+                                        "height": "10",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "items.0",
+                                                "value": "SNR*"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "primary_label",
+                                                "value": "{{ITEM.NAME}.regsub(\"(MHz:\\d+)\",\"\\1\")}"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "KZFYH"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.threshold",
+                                                "value": "23"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.color",
+                                                "value": "FFD54F"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.threshold",
+                                                "value": "30"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.2.color",
+                                                "value": "0EC9AC"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.2.threshold",
+                                                "value": "33"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "8",
+                                        "width": "7",
+                                        "fields": [
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "decimal_places",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.downstream"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "15",
+                                        "width": "7",
+                                        "fields": [
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "decimal_places",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.upstream"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "honeycomb",
+                                        "name": "Downstream Power",
+                                        "x": "15",
+                                        "y": "2",
+                                        "width": "15",
+                                        "height": "10",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "items.0",
+                                                "value": "DS Power*"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "primary_label",
+                                                "value": "{{ITEM.NAME}.regsub(\"(MHz:\\d+)\",\"\\1\")}"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "LKVVB"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.color",
+                                                "value": "0EC9AC"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.threshold",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.color",
+                                                "value": "FFD54F"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.threshold",
+                                                "value": "8"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.2.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.2.threshold",
+                                                "value": "11"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "22",
+                                        "width": "14",
+                                        "fields": [
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.hardware.mac"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "honeycomb",
+                                        "name": "Corrected Errors",
+                                        "x": "30",
+                                        "y": "2",
+                                        "width": "15",
+                                        "height": "10",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "items.0",
+                                                "value": "Corrected*"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "primary_label",
+                                                "value": "{{ITEM.NAME}.regsub(\"(MHz:\\d+)\",\"\\1\")}"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "GJGOR"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "secondary_label_decimal_places",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.color",
+                                                "value": "0EC9AC"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.threshold",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.color",
+                                                "value": "FFD54F"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.threshold",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "36",
+                                        "width": "9",
+                                        "fields": [
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.docsis"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "45",
+                                        "width": "11",
+                                        "fields": [
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.software.customer"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "honeycomb",
+                                        "name": "Uncorrected errors",
+                                        "x": "45",
+                                        "y": "2",
+                                        "width": "15",
+                                        "height": "10",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "items.0",
+                                                "value": "Uncorrected*"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "primary_label",
+                                                "value": "{{ITEM.NAME}.regsub(\"(MHz:\\d+)\",\"\\1\")}"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "FPVYD"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "secondary_label_decimal_places",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.color",
+                                                "value": "0EC9AC"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.0.threshold",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "thresholds.1.threshold",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "56",
+                                        "width": "16",
+                                        "fields": [
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.uptime"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "item",
+                                        "x": "60",
+                                        "y": "2",
+                                        "width": "12",
+                                        "fields": [
+                                            {
+                                                "type": "ITEM",
+                                                "name": "itemid.0",
+                                                "value": {
+                                                    "host": "MB8600",
+                                                    "key": "modem.software.version"
+                                                }
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.0",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "show.1",
+                                                "value": "4"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "value_bold",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "honeycomb",
+                                        "name": "Upstream Power",
+                                        "x": "60",
+                                        "y": "4",
+                                        "width": "12",
+                                        "height": "8",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "items.0",
+                                                "value": "Power*"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "primary_label",
+                                                "value": "{{ITEM.NAME}.regsub(\"(MHz:\\d+)\",\"\\1\")}"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "TDATS"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "secondary_label_decimal_places",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "aa3c08f1ffc94c23aaafd2b9f23f718b",
+                        "name": "Upstream Power",
+                        "pages": [
+                            {
+                                "widgets": [
+                                    {
+                                        "type": "svggraph",
+                                        "name": "Power",
+                                        "width": "72",
+                                        "height": "6",
+                                        "fields": [
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.color",
+                                                "value": "FF465C"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "ds.0.fill",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "ds.0.items.0",
+                                                "value": "Power*"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_lines",
+                                                "value": "6"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_lines_mode",
+                                                "value": "1"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "legend_statistic",
+                                                "value": "1"
+                                            },
+                                            {
+                                                "type": "STRING",
+                                                "name": "reference",
+                                                "value": "RGRBG"
+                                            },
+                                            {
+                                                "type": "INTEGER",
+                                                "name": "righty",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
