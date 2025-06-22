@@ -13,8 +13,10 @@ These instructions assume you are installing on the Zabbix server
 2. Download the script and place it in /usr/lib/externalscripts/
 
 3. Confirm the script is executable by Zabbix
-   `sudo -u zabbix /usr/lib/zabbix/externalscripts/mb8600 -down
-❌ Argument error: Both -u (username) and -p (password) are required.`
+
+   ```sudo -u zabbix /usr/lib/zabbix/externalscripts/mb8600 -down
+   ❌ Argument error: Both -u (username) and -p (password) are required.
+   ```
 
 # Acknowledgements
 
