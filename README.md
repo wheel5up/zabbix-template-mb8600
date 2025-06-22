@@ -19,6 +19,14 @@ These instructions assume you are installing on the Zabbix server
    ❌ Argument error: Both -u (username) and -p (password) are required.
    ```
 
+4. Upload the JSON template to Zabbix
+
+5. Create a host for your cable modem in Zabbix and attach the template.
+
+6. Update the template varialbe with your cable modem password.
+
+7. You can test the setup by running the `status` command in zabbix. This is the item with the `-status` flag
+
 # Acknowledgements
 
 https://gist.github.com/josedaniel/951664
